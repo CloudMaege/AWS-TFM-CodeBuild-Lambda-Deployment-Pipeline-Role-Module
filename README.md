@@ -20,7 +20,7 @@ No Pre-Requisites Defined.
 
 ```terraform
 module "lambda_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.0"
+  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.1"
 
   // Optional
   lambda_pipeline_s3_resource_list  = []

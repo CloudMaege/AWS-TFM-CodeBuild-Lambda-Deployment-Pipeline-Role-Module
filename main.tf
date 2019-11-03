@@ -41,9 +41,11 @@ data "aws_iam_policy_document" "access_policy" {
       "logs:PutLogEvents",
     ]
 
-    resources = [
-      "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:*"
-    ]
+    resources = ["*"]
+
+    # resources = [
+    #   "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:*"
+    # ]
   }
 
   // EC2 to allow CodeBuild to spin up its required resources
@@ -61,13 +63,15 @@ data "aws_iam_policy_document" "access_policy" {
       "ec2:DescribeVpcs",
     ]
 
-    resources = [
-      "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:network-interface/*",
-      "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:dhcp-options/*",
-      "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:subnet/*",
-      "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:security-group/*",
-      "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:vpc/*"
-    ]
+    resources = ["*"]
+
+    # resources = [
+    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:network-interface/*",
+    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:dhcp-options/*",
+    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:subnet/*",
+    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:security-group/*",
+    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:vpc/*"
+    # ]
   }
 
   // Lambda
@@ -78,12 +82,14 @@ data "aws_iam_policy_document" "access_policy" {
       "lambda:*",
     ]
 
-    resources = [
-      "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:event-source-mapping:*",
-      "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:function:*",
-      "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*",
-      "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*:*"
-    ]
+    resources = ["*"]
+
+    # resources = [
+    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:event-source-mapping:*",
+    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:function:*",
+    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*",
+    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*:*"
+    # ]
   }
   
   statement {
