@@ -185,7 +185,7 @@ resource "aws_iam_role_policy" "sns_policy" {
 // Optional KMS CMK Usage Policy
 resource "aws_iam_role_policy" "cmk_policy" {
   count  = "${length(var.lambda_pipeline_cmk_resource_list)}" > 0 ? 1 : 0
-  name   = "${var.lambda_role_name}-CMKPolicy"
+  name   = "${var.codebuild_role_name}-CMKPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.cmk_policy[count.index].json
 }
