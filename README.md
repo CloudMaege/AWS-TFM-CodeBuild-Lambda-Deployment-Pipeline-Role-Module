@@ -329,7 +329,7 @@ can't guarantee that exactly these actions will be performed if
 
 <br>
 
-This variable can be used to customize the description of the Lambda CodeBuild Deployment Role that will be provisioned. If this value is not defined, then the CodeBuild Role description will be set to `Specify the description for the the Lambda Pipeline Service Role.`.
+This variable can be used to customize the description of the Lambda CodeBuild Deployment Role that will be provisioned. If this value is not defined, then the CodeBuild Role description will be set to `CodeBuild Role that allows CodeBuild to deploy Lambda Functions.`.
 
 <br><br>
 
@@ -1096,7 +1096,7 @@ module "lambda_codebuild_deployment_pipeline_role" {
 
 ### Generated IAM S3 Access Policy
 
-**arn:aws:iam::123456789101:policy/CloudMage-CodeBuild-Lambda-Deployment-Role-S3Policy**
+**CloudMage-CodeBuild-Lambda-Deployment-Role-S3Policy**
 
 ```yaml
 Statement:
@@ -1121,7 +1121,7 @@ Statement:
 
 <br>
 
-**arn:aws:iam::123456789101:policy/CloudMage-CodeBuild-Lambda-Deployment-Role-SNSPolicy**
+**CloudMage-CodeBuild-Lambda-Deployment-Role-SNSPolicy**
 
 ```yaml
 Statement:
@@ -1135,7 +1135,7 @@ Statement:
 
 <br>
 
-**arn:aws:iam::123456789101:policy/CloudMage-CodeBuild-Lambda-Deployment-Role-CMKPolicy**
+**CloudMage-CodeBuild-Lambda-Deployment-Role-CMKPolicy**
 
 ```yaml
 Statement:
@@ -1157,7 +1157,7 @@ Statement:
 
 <br>
 
-**arn:aws:iam::123456789101:role/CloudMage-CodeBuild-Lambda-Deployment-Role**
+**CloudMage-CodeBuild-Lambda-Deployment-Role**
 
 ```yaml
 CloudMage-CodeBuild-Lambda-Deployment-Role:
@@ -1420,7 +1420,7 @@ The template will finally create the following outputs that can be pulled and us
 
 ```terraform
 ######################
-# S3 Bucket:         #
+# CodeBuild Role:    #
 ######################
 output "codebuild_role_id" {}
 output "codebuild_role_arn" {}
@@ -1436,7 +1436,7 @@ When using and calling the module within a root project, the output values of th
 
 ```terraform
 ######################
-# S3 Bucket          #
+# CodeBuild Role:    #
 ######################
 output "pipeline_role_id" {
   value = module.demo_codebuild_role.codebuild_role_id
