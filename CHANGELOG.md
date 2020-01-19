@@ -1,4 +1,4 @@
-# TF-AWS-Lambda-Deploy-CodeBuild-Role-Module CHANGELOG
+# TF-AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module CHANGELOG
 
 All notable changes to this project will be documented in this file.
 
