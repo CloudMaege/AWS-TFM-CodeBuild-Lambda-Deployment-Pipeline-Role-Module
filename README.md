@@ -3,7 +3,7 @@
 <!-- markdownlint-disable MD028 -->
 <!-- markdownlint-disable MD036 -->
 
-# Terraform Lambda Deployment Pipeline CodeBuild Role Module
+# Terraform CodeBuild Lambda Deployment Pipeline Role Module
 
 ![Hero](images/tf_iam.png)
 
@@ -25,7 +25,7 @@ No Pre-Requisites Defined.
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   // Optional
   codebuild_role_name               = "Codebuild-Lambda-Role"
@@ -72,7 +72,7 @@ variable "codebuild_role_name" {
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   # Optional
   // codebuild_role_name               = var.codebuild_role_name
@@ -198,7 +198,7 @@ can't guarantee that exactly these actions will be performed if
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name               = "CodeBuild-Lambda-Deploy-Role"
 
@@ -349,7 +349,7 @@ variable "codebuild_role_description" {
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name        = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
@@ -500,7 +500,7 @@ variable "lambda_pipeline_s3_resource_list" {
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
@@ -712,7 +712,7 @@ variable "lambda_pipeline_sns_resource_list" {
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
@@ -898,7 +898,7 @@ variable "lambda_pipeline_cmk_resource_list" {
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
@@ -1082,7 +1082,7 @@ When all options have been provided, the complete IAM Role will be provisioned w
 
 ```terraform
 module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/TF-AWS-Lambda-Deploy-CodeBuild-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
 
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
