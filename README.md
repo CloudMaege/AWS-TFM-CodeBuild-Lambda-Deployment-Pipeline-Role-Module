@@ -1406,6 +1406,12 @@ can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
 ```
 
+<br>
+
+![Provisioned Role](images/Lambda-Pipeline-CodeBuild-Role.png)
+
+<br><br>
+
 # Module Example Usage
 
 An example of how to use this module can be found within the `example` directory of this repository
