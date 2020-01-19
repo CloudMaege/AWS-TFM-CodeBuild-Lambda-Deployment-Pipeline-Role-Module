@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "principal_policy" {
 // CodeBuild Role Access Policies
 data "aws_iam_policy_document" "access_policy" {
 
-  // Logging
+  // Logging permissions to create and write to cloudwatch log groups
   statement {
     sid = "LambdaPipelineLogAccess"
 
@@ -42,10 +42,6 @@ data "aws_iam_policy_document" "access_policy" {
     ]
 
     resources = ["*"]
-
-    # resources = [
-    #   "arn:aws:logs:*:${data.aws_caller_identity.current.account_id}:*"
-    # ]
   }
 
   // EC2 to allow CodeBuild to spin up its required resources
@@ -64,17 +60,9 @@ data "aws_iam_policy_document" "access_policy" {
     ]
 
     resources = ["*"]
-
-    # resources = [
-    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:network-interface/*",
-    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:dhcp-options/*",
-    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:subnet/*",
-    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:security-group/*",
-    #   "arn:aws:ec2::${data.aws_caller_identity.current.account_id}:vpc/*"
-    # ]
   }
 
-  // Lambda
+  // Lambda access to create and maintain functions
   statement {
     sid = "LambdaPipelineLambdaAccess"
 
@@ -83,15 +71,9 @@ data "aws_iam_policy_document" "access_policy" {
     ]
 
     resources = ["*"]
-
-    # resources = [
-    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:event-source-mapping:*",
-    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:function:*",
-    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*",
-    #   "arn:aws:lambda::${data.aws_caller_identity.current.account_id}:layer:*:*"
-    # ]
   }
   
+  // IAM Passrole so that codebuild can pass the lambda specific roles to the functions it creates
   statement {
     sid = "LambdaPipelinePassRole"
 
@@ -152,12 +134,14 @@ data "aws_iam_policy_document" "cmk_policy" {
 
     actions = [
       "kms:DescribeKey",
+      "kms:GenerateDataKey*",
       "kms:Encrypt",
       "kms:ReEncrypt*",
       "kms:Decrypt",
       "kms:ListGrants",
       "kms:CreateGrant",
-      "kms:RevokeGrant",
+      "kms:RetireGrant",
+      "kms:RevokeGrant"
     ]
   
     resources = var.lambda_pipeline_cmk_resource_list
@@ -169,15 +153,15 @@ data "aws_iam_policy_document" "cmk_policy" {
 #####################################
 // Role
 resource "aws_iam_role" "this" {
-  name                 = "CodeBuild-Lambda-Pipeline-Service-Role"
-  description          = "CodeBuild Role that allows CodeBuild to deploy Lambda Functions."
+  name                 = var.codebuild_role_name
+  description          = var.codebuild_role_description
   max_session_duration = "14400"
   assume_role_policy   = data.aws_iam_policy_document.principal_policy.json
 }
 
 // Access Policy
 resource "aws_iam_role_policy" "access_policy" {
-  name   = "CodeBuild-Lambda-Pipeline-Service-Role-AccessPolicy"
+  name   = "${var.codebuild_role_name}-AccessPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.access_policy.json
 }
@@ -185,7 +169,7 @@ resource "aws_iam_role_policy" "access_policy" {
 // Optional S3 Bucket Access
 resource "aws_iam_role_policy" "s3_policy" {
   count  = "${length(var.lambda_pipeline_s3_resource_list)}" > 0 ? 1 : 0
-  name   = "CodeBuild-Lambda-Pipeline-Service-Role-S3Policy"
+  name   = "${var.codebuild_role_name}-S3Policy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.s3_policy[count.index].json
 }
@@ -193,7 +177,7 @@ resource "aws_iam_role_policy" "s3_policy" {
 // Optional SNS Topic Access
 resource "aws_iam_role_policy" "sns_policy" {
   count  = "${length(var.lambda_pipeline_sns_resource_list)}" > 0 ? 1 : 0
-  name   = "CodeBuild-Lambda-Pipeline-Service-Role-SNSPolicy"
+  name   = "${var.codebuild_role_name}-SNSPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.sns_policy[count.index].json
 }
@@ -201,7 +185,7 @@ resource "aws_iam_role_policy" "sns_policy" {
 // Optional KMS CMK Usage Policy
 resource "aws_iam_role_policy" "cmk_policy" {
   count  = "${length(var.lambda_pipeline_cmk_resource_list)}" > 0 ? 1 : 0
-  name   = "CodeBuild-Lambda-Pipeline-Service-Role-CMKPolicy"
+  name   = "${var.lambda_role_name}-CMKPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.cmk_policy[count.index].json
 }
