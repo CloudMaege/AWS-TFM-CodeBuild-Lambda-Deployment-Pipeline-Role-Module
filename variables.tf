@@ -40,6 +40,6 @@ variable "codebuild_role_tags" {
   description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
   default     = {
     Provisoned_By  = "Terraform"
-    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }

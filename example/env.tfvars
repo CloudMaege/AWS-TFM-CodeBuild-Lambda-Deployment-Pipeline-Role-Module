@@ -13,5 +13,5 @@ cmk_resource_access = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34c
 
 role_tags           = {
     Provisoned_By   = "Terraform"
-    GitHub_URL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Module_GitHub_UrL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
 }

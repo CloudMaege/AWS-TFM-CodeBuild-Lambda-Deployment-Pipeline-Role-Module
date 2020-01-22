@@ -36,7 +36,7 @@ module "codebuild_lambda_deployment_role" {
   // Tags
   # codebuild_role_tags                = {
   #   Provisoned_By  = "Terraform"
-  #   GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  #   Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   # }
 }
 ```
@@ -1212,7 +1212,7 @@ variable "codebuild_role_tags" {
   description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
   default     = {
     Provisoned_By  = "Terraform"
-    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }
 ```
@@ -1233,7 +1233,7 @@ module "codebuild_lambda_deployment_role" {
   // Tags
   codebuild_role_tags = {
     Provisoned_By  = "Terraform"
-    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   }
 
   // Optional Variables with module defined default values assigned
@@ -1265,7 +1265,7 @@ module "codebuild_lambda_deployment_pipeline_role" {
   // Tags
   # codebuild_role_tags = {
   #   Provisoned_By  = "Terraform"
-  #   GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  #   Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   # }
 }
 ```
@@ -1647,7 +1647,7 @@ variable "codebuild_role_tags" {
   description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
   default     = {
     Provisoned_By  = "Terraform"
-    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }
 ```
@@ -1672,7 +1672,7 @@ codebuild_cmk_resource_access     = []
 
 codebuild_role_tags           = {
     Provisoned_By   = "Terraform"
-    GitHub_URL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Module_GitHub_UrL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
 }
 ```
 
