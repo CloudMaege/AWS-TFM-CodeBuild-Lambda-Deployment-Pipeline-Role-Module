@@ -14,12 +14,13 @@ provider "aws" {
 
 // Create the required CodeBuild Role
 module "demo_codebuild_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
   // Optional
-  // codebuild_role_name               = var.role_name
-  // codebuild_role_description        = var.role_description
-  // lambda_pipeline_s3_resource_list  = var.deployment_s3_resources
-  // lambda_pipeline_sns_resource_list = var.deployment_sns_resources
-  // lambda_pipeline_cmk_resource_list = var.deployment_cmk_resources
+  # codebuild_role_name               = var.role_name
+  # codebuild_role_description        = var.role_description
+  # codebuild_role_s3_resource_access = var.s3_resource_access
+  # codebuild_sns_resource_access     = var.sns_resource_access
+  # codebuild_cmk_resource_access     = var.cmk_resource_access
+  # codebuild_role_tags               = var.role_tags
 }

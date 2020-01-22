@@ -1,8 +1,5 @@
-<!-- markdownlint-disable MD024 -->
-<!-- markdownlint-disable MD025 -->
-<!-- markdownlint-disable MD028 -->
-<!-- markdownlint-disable MD036 -->
-
+<!-- VSCode Markdown Exclusions-->
+<!-- markdownlint-disable MD025 Single Title Headers-->
 # Terraform CodeBuild Lambda Deployment Pipeline Role Module
 
 ![Hero](images/tf_iam.png)
@@ -15,72 +12,168 @@ This AWS IAM Role module is designed to produce a CodeBuild IAM role that will b
 
 <br><br>
 
-## Module Pre-Requisites
+# Module Pre-Requisites and Dependencies
 
-No Pre-Requisites Defined.
+This module does not currently have any pre-requisites or dependency requirements.
 
 <br><br>
 
-## Module usage in project root main.tf
+# Module Usage
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
-  // Optional
-  codebuild_role_name               = "Codebuild-Lambda-Role"
-  codebuild_role_description        = "CodeBuild Role Description would go here"
-  lambda_pipeline_s3_resource_list  = ["arn:aws:s3:::kms-encrypted-demo-bucket", "arn:aws:s3:::demo-lambda-deploy-bucket"]
-  lambda_pipeline_sns_resource_list = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
-  lambda_pipeline_cmk_resource_list = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
+  // Required Variables
+  codebuild_role_name                  = "Codebuild-Lambda-Role"
+  codebuild_role_description           = "CodeBuild Role Description would go here"
+  
+  // Optional Variables with module defined default values assigned
+  # codebuild_role_s3_resource_access  = []
+  # codebuild_sns_resource_access      = []
+  # codebuild_cmk_resource_access      = []
+
+  // Tags
+  # codebuild_role_tags                = {
+  #   Provisoned_By  = "Terraform"
+  #   GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  # }
 }
 ```
 
 <br><br>
 
-## Variables
+# Terraform Variables
 
-The following variables are utilized by this module and cause the module to behave dynamically based upon the variables that are populated and passed into the module.
-
-<br><br>
-
-## :large_blue_circle: codebuild_role_name
+Module variables that need to either be defined or re-defined with a non-default value can easily be hardcoded inline directly within the module call block or from within the root project that is consuming the module. If using the second approach then the root project must have it's own custom variables defined within the projects `variables.tf` file with set default values or with the values provided from a separate environmental `terraform.tfvar` file. Examples of both approaches can be found below. Note that for the standards used within this documentation, all variables will mostly use the first approach for ease of readability.
 
 <br>
 
-![Optional](images/neon_optional.png)
-
-<br>
-
-This variable can be used to customize the name of the Lambda CodeBuild Deployment Role that will be provisioned. If this value is not defined, then the CodeBuild Role name will be set to `CodeBuild-Lambda-Pipeline-Service-Role`.
+> __NOTE:__ There is also a third way to provide variable values using Terraform data sources. A data source is a unique type of code block used within a project that either instantiates or collects data that can be referenced throughout the project. A data source, for example,  can be declared to read the terraform state file and gather all of the available information from a previously deployed project stack. Any of the data contained within the data source can then be referenced to set the value of a project or module variable.
 
 <br><br>
 
-### Declaration in module variables.tf
+## Setting Variables Inline
 
 ```terraform
-variable "codebuild_role_name" {
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+
+  // Required Variables
+  codebuild_role_name = "Codebuild-Lambda-Role"
+}
+```
+
+<br><br>
+
+## Setting Variables in a Terraform Root Project
+
+<br>
+
+### Terraform Root Project/variables.tf
+
+```terraform
+variable "role_name" {
   type        = string
-  description = "Specify a name for the the Lambda Pipeline Service Role."
-  default     = "CodeBuild-Lambda-Pipeline-Service-Role"
+  description = "Meaningful Description"
+}
+```
+
+<br>
+
+### Terraform Root Project/terraform.tfvars
+
+```terraform
+role_name = "Codebuild-Lambda-Role"
+```
+
+<br>
+
+### Terraform Root Project/main.tf
+
+```terraform
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+
+  // Required Variables
+  codebuild_role_name  = var.role_name
 }
 ```
 
 <br><br>
 
-### Module usage in project root main.tf default role name
+# Required Variables
+
+This module does not have any required variables. The module can be called without passing any arguments to it, and the module will spin up the IAM role resources using all of the default values.
+
+<br><br>
+
+## Base Module Execution
+
+Once all of the modules required values have been assigned, then the module can be executed in its base capacity.
+
+<br><br>
+
+### Module usage in project root main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
-  # Optional
-  // codebuild_role_name               = var.codebuild_role_name
-  // codebuild_role_description        = var.codebuild_role_description
-  // lambda_pipeline_s3_resource_list  = var.lambda_pipeline_s3_resource_list
-  // lambda_pipeline_sns_resource_list = var.lambda_pipeline_sns_resource_list
-  // lambda_pipeline_cmk_resource_list = var.lambda_pipeline_cmk_resource_list
+  // This Module has No Required Variables
 }
+```
+
+<br><br>
+
+### Generated IAM Role Policy
+
+Without defining values for any optional module variables, an IAM policy with the following permissions will be created automatically and applied to the requested CodeBuild IAM Role during module execution.
+
+```yaml
+CloudMage-CodeBuild-Lambda-Deployment-Role:
+  AssumeRolePolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal:
+          Service:
+            - codebuild.amazonaws.com
+        Action: sts:AssumeRole
+  Policies:
+    - PolicyName: CloudMage-CodeBuild-Lambda-Deployment-Role-AccessPolicy
+      PolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Sid: LambdaPipelineLogAccess
+          Effect: Allow
+          Action:
+            - logs:PutLogEvents
+            - logs:CreateLogStream
+            - logs:CreateLogGroup
+          Resource: "*"
+        - Sid: LambdaPipelineEC2Access
+          Effect: Allow
+          Action:
+            - ec2:DescribeVpcs
+            - ec2:DescribeSubnets
+            - ec2:DescribeSecurityGroups
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DescribeDhcpOptions
+            - ec2:DeleteNetworkInterface
+            - ec2:CreateNetworkInterfacePermission
+            - ec2:CreateNetworkInterface
+          Resource: "*"
+        - Sid: LambdaPipelineLambdaAccess
+          Effect: Allow
+          Action:
+            - lambda:*
+          Resource: "*"
+        - Sid: LambdaPipelinePassRole
+          Effect: Allow
+          Action:
+            - iam:PassRole
+          Resource: "*"
 ```
 
 <br><br>
@@ -194,19 +287,44 @@ can't guarantee that exactly these actions will be performed if
 
 <br><br>
 
-### Module usage in project root main.tf custom role name
+# Optional Variables
+
+The following optional module variables are not required because they already have default values assigned when the variables where defined within the modules `variables.tf` file. If the default values do not need to be changed by the root project consuming the module, then they do not even need to be included in the root project. If any of the variables do need to be changed, then they can be added to the root project in the same way that the required variables were defined and utilized. Optional variables also may alter how the module provisions resources in the cases of encryption or IAM policy generation. A variable could flag an encryption requirement when provisioning an S3 bucket or Dynamo table by providing a KMS CMK, for example. Another use case may be the passage of ARN values to allow users or roles access to services or resources, whereas by default permissions would be more restrictive or only assigned to the account root or a single IAM role. A detailed explanation of each of this modules optional variables can be found below:
+
+<br><br>
+
+## :large_blue_circle: codebuild_role_name
+
+<br>
+
+![Optional](images/neon_optional.png)
+
+<br>
+
+This variable can be used to customize the name of the Lambda CodeBuild Deployment Role that will be provisioned. If this value is not defined, then the CodeBuild Role name will be set to `CodeBuild-Lambda-Pipeline-Service-Role`.
+
+<br><br>
+
+### Declaration in module variables.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+variable "codebuild_role_name" {
+  type        = string
+  description = "Specify a name for the the Lambda Pipeline Service Role."
+  default     = "CodeBuild-Lambda-Pipeline-Service-Role"
+}
+```
 
-  codebuild_role_name               = "CodeBuild-Lambda-Deploy-Role"
+<br><br>
 
-  # Optional
-  // codebuild_role_description        = var.codebuild_role_description
-  // lambda_pipeline_s3_resource_list  = var.lambda_pipeline_s3_resource_list
-  // lambda_pipeline_sns_resource_list = var.lambda_pipeline_sns_resource_list
-  // lambda_pipeline_cmk_resource_list = var.lambda_pipeline_cmk_resource_list
+### Module usage in project root main.tf
+
+```terraform
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+
+  // Required Variables
+  codebuild_role_name                = "CodeBuild-Lambda-Deploy-Role"
 }
 ```
 
@@ -348,16 +466,12 @@ variable "codebuild_role_description" {
 ### Module usage in project root main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
+  // Required Variables
   codebuild_role_name        = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
-
-  # Optional
-  // lambda_pipeline_s3_resource_list  = var.lambda_pipeline_s3_resource_list
-  // lambda_pipeline_sns_resource_list = var.lambda_pipeline_sns_resource_list
-  // lambda_pipeline_cmk_resource_list = var.lambda_pipeline_cmk_resource_list
 }
 ```
 
@@ -472,7 +586,7 @@ can't guarantee that exactly these actions will be performed if
 
 <br><br><br>
 
-## :large_blue_circle: lambda_pipeline_s3_resource_list
+## :large_blue_circle: codebuild_role_s3_resource_access
 
 <br>
 
@@ -487,7 +601,7 @@ This variable can contain a list of AWS S3 Bucket ARNs that the CodeBuild Role w
 ### Declaration in module variables.tf
 
 ```terraform
-variable "lambda_pipeline_s3_resource_list" {
+variable "codebuild_role_s3_resource_access" {
   type        = list(string)
   description = "List of S3 Bucket ARNs that the CodeBuild Lambda Pipeline Service Role will be given access to."
   default     = []
@@ -499,16 +613,13 @@ variable "lambda_pipeline_s3_resource_list" {
 ### Module usage in project root main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
-  codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
-  codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
-  lambda_pipeline_s3_resource_list  = ["arn:aws:s3:::kms-encrypted-demo-bucket", "arn:aws:s3:::demo-lambda-deploy-bucket"]
-
-  # Optional
-  // lambda_pipeline_sns_resource_list = var.lambda_pipeline_sns_resource_list
-  // lambda_pipeline_cmk_resource_list = var.lambda_pipeline_cmk_resource_list
+  // Required Variables
+  codebuild_role_name                = "CloudMage-CodeBuild-Lambda-Deployment-Role"
+  codebuild_role_description         = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
+  codebuild_role_s3_resource_access  = ["arn:aws:s3:::kms-encrypted-demo-bucket", "arn:aws:s3:::demo-lambda-deploy-bucket"]
 }
 ```
 
@@ -684,7 +795,7 @@ can't guarantee that exactly these actions will be performed if
 
 <br><br><br>
 
-## :large_blue_circle: lambda_pipeline_sns_resource_list
+## :large_blue_circle: codebuild_sns_resource_access
 
 <br>
 
@@ -699,7 +810,7 @@ This variable can contain a list of AWS SNS Topic ARNs that the CodeBuild Role w
 ### Declaration in module variables.tf
 
 ```terraform
-variable "lambda_pipeline_sns_resource_list" {
+variable "codebuild_sns_resource_access" {
   type        = list(string)
   description = "List of SNS Topic ARNs that the CodeBuild Lambda Pipeline Service Role will be given access to."
   default     = []
@@ -711,16 +822,16 @@ variable "lambda_pipeline_sns_resource_list" {
 ### Module usage in project root main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
+  // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
-  lambda_pipeline_sns_resource_list = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
+  codebuild_sns_resource_access     = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
 
-  # Optional
-  // lambda_pipeline_s3_resource_list = var.lambda_pipeline_s3_resource_list
-  // lambda_pipeline_cmk_resource_list = var.lambda_pipeline_cmk_resource_list
+  // Optional Variables with module defined default values assigned
+  # codebuild_role_s3_resource_access = []
 }
 ```
 
@@ -870,7 +981,7 @@ can't guarantee that exactly these actions will be performed if
 
 <br><br><br>
 
-## :large_blue_circle: lambda_pipeline_cmk_resource_list
+## :large_blue_circle: codebuild_cmk_resource_access
 
 <br>
 
@@ -885,7 +996,7 @@ This variable can contain a list of AWS KMS CMK ARNs that the CodeBuild Role wil
 ### Declaration in module variables.tf
 
 ```terraform
-variable "lambda_pipeline_cmk_resource_list" {
+variable "codebuild_cmk_resource_access" {
   type        = list(string)
   description = "Optional - List of KMS CMK ARNs that the CodeBuild Lambda Pipeline Service Role will be given usage permissions to."
   default     = []
@@ -897,16 +1008,17 @@ variable "lambda_pipeline_cmk_resource_list" {
 ### Module usage in project root main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
+  // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
-  lambda_pipeline_cmk_resource_list = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
+  codebuild_cmk_resource_access     = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
 
-  # Optional
-  // lambda_pipeline_s3_resource_list = var.lambda_pipeline_s3_resource_list
-  // lambda_pipeline_sns_resource_list = var.lambda_pipeline_sns_resource_list
+  // Optional Variables with module defined default values assigned
+  # codebuild_role_s3_resource_access = []
+  # codebuild_sns_resource_access     = []
 }
 ```
 
@@ -1074,6 +1186,65 @@ can't guarantee that exactly these actions will be performed if
 
 <br><br><br>
 
+## :large_blue_circle: codebuild_role_tags
+
+<br>
+
+![Optional](images/neon_optional.png)
+
+<br>
+
+This variable should contain a map of tags that will be assigned to the IAM CodeBuild Role upon creation. Any tags contained within the `codebuild_role_tags` map variable will be passed to the module and automatically merged with a few tags that are also automatically created when the module is executed. The automatically generated tags are as follows:
+
+- __Name__ - This tag is assigned the value from the `codebuild_role_name` variable that will be set to the variables default value or the custom value if passed during module execution.
+- __Created_By__ - This tag is assigned the value of the aws user that was used to execute the Terraform module to create the CodeBuild IAM Role. It uses the Terraform `aws_caller_identity {}` data source provider to obtain the User_Id value. This tag will be ignored for any future executions of the module, ensuring that its value will not be changed after it's initial creation.
+- __Creator_ARN__ - This tag is assigned the ARN value of the aws user that was used to execute the Terraform module to create the CodeBuild IAM Role. It uses the Terraform `aws_caller_identity {}` data source provider to obtain the User_ARN value. This tag will be ignored for any future executions of the module, ensuring that its value will not be changed after it's initial creation.
+- __Creation_Date__ - This tag is assigned a value that is obtained by the Terraform `timestamp()` function. This tag will be ignored for any future executions of the module, ensuring that its value will not be changed after it's initial creation.
+- __Updated_On__ - This tag is assigned a value that is obtained by the Terraform `timestamp()` function. This tag will be updated on each future execution of the module to ensure that it's value displays the last `terraform apply` date.
+
+<br><br>
+
+### Declaration in module variables.tf
+
+```terraform
+variable "codebuild_role_tags" {
+  type        = map
+  description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
+  default     = {
+    Provisoned_By  = "Terraform"
+    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+  }
+}
+```
+
+<br><br>
+
+### Module usage in project root main.tf
+
+```terraform
+module "codebuild_lambda_deployment_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+
+  // Required Variables
+  codebuild_role_name                  = "Codebuild-Lambda-Role"
+  codebuild_role_description           = "CodeBuild Role Description would go here"
+  
+
+  // Tags
+  codebuild_role_tags = {
+    Provisoned_By  = "Terraform"
+    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  }
+
+  // Optional Variables with module defined default values assigned
+  # codebuild_role_s3_resource_access  = []
+  # codebuild_sns_resource_access      = []
+  # codebuild_cmk_resource_access      = []
+}
+```
+
+<br><br>
+
 # Complete IAM CodeBuild Role Permissions
 
 When all options have been provided, the complete IAM Role will be provisioned with the following permissions:
@@ -1081,14 +1252,21 @@ When all options have been provided, the complete IAM Role will be provisioned w
 ## Project main.tf
 
 ```terraform
-module "lambda_codebuild_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.2"
+module "codebuild_lambda_deployment_pipeline_role" {
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
 
+  // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
   codebuild_role_description        = "This role is used by codebuild to deploy lambdas for applications app_a, app_b, and app_c."
-  lambda_pipeline_s3_resource_list  = ["arn:aws:s3:::kms-encrypted-demo-bucket", "arn:aws:s3:::demo-lambda-deploy-bucket"]
-  lambda_pipeline_sns_resource_list = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
-  lambda_pipeline_cmk_resource_list = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
+  codebuild_role_s3_resource_access = ["arn:aws:s3:::kms-encrypted-demo-bucket", "arn:aws:s3:::demo-lambda-deploy-bucket"]
+  codebuild_sns_resource_access     = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
+  codebuild_cmk_resource_access     = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
+
+  // Tags
+  # codebuild_role_tags = {
+  #   Provisoned_By  = "Terraform"
+  #   GitHub_URL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  # }
 }
 ```
 
@@ -1418,6 +1596,88 @@ An example of how to use this module can be found within the `example` directory
 
 <br><br>
 
+# Variables and TFVars File Templates
+
+The following code block can be used or appended to an existing tfvars file within the project root consuming this module. Optional Variables are commented out and have their values set to the default values defined in the modules variables.tf file. If the values do not need to be changed, then they do not need to be redefined in the project root. If they do need to be changed, then include them in the root project and change the values accordingly.
+
+<br><br>
+
+## Complete Module variables.tf File
+
+```terraform
+###########################################################################
+# Optional CodeBuild IAM Lambda Deployment Role Module Vars:              #
+#-------------------------------------------------------------------------#
+# The following variables have default values already set by the module.  #
+# They will not need to be included in a project root module variables.tf #
+# file unless a non-default value needs be assigned to the variable.      #
+###########################################################################
+variable "codebuild_role_name" {
+  type        = string
+  description = "Specify a name for the the Lambda Pipeline Service Role."
+  default     = "CodeBuild-Lambda-Pipeline-Service-Role"
+}
+
+variable "codebuild_role_description" {
+  type        = string
+  description = "Specify the description for the the Lambda Pipeline Service Role."
+  default     = "CodeBuild Role that allows CodeBuild to deploy Lambda Functions."
+}
+
+variable "codebuild_role_s3_resource_access" {
+  type        = list(string)
+  description = "List of S3 Bucket ARNs that the CodeBuild Lambda Pipeline Service Role will be given access to."
+  default     = []
+}
+
+variable "codebuild_sns_resource_access" {
+  type        = list(string)
+  description = "List of SNS Topic ARNs that the CodeBuild Lambda Pipeline Service Role will be given access to."
+  default     = []
+}
+
+variable "codebuild_cmk_resource_access" {
+  type        = list(string)
+  description = "Optional - List of KMS CMK ARNs that the CodeBuild Lambda Pipeline Service Role will be given usage permissions to."
+  default     = []
+}
+
+variable "codebuild_role_tags" {
+  type        = map
+  description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
+  default     = {
+    Provisoned_By  = "Terraform"
+    GitHub_URL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+  }
+}
+```
+
+<br><br>
+
+## Complete Module TFVars File
+
+```terraform
+###########################################################################
+# Optional CodeBuild IAM Lambda Deployment Role Module Vars:              #
+#-------------------------------------------------------------------------#
+# The following variables have default values already set by the module.  #
+# They will not need to be included in a project root module variables.tf #
+# file unless a non-default value needs be assigned to the variable.      #
+###########################################################################
+codebuild_role_name               = "CodeBuild-Lambda-Pipeline-Service-Role"
+codebuild_role_description        = "CodeBuild Role that allows CodeBuild to deploy Lambda Functions."
+codebuild_role_s3_resource_access = []
+codebuild_sns_resource_access     = []
+codebuild_cmk_resource_access     = []
+
+codebuild_role_tags           = {
+    Provisoned_By   = "Terraform"
+    GitHub_URL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+}
+```
+
+<br><br>
+
 # Module Outputs
 
 The template will finally create the following outputs that can be pulled and used in subsequent terraform runs via data sources. The outputs will be written to the terraform state file.
@@ -1425,9 +1685,9 @@ The template will finally create the following outputs that can be pulled and us
 <br>
 
 ```terraform
-######################
-# CodeBuild Role:    #
-######################
+###################################
+# CodeBuild Service Role Outputs: #
+###################################
 output "codebuild_role_id" {}
 output "codebuild_role_arn" {}
 ```
@@ -1441,9 +1701,9 @@ When using and calling the module within a root project, the output values of th
 <br>
 
 ```terraform
-######################
-# CodeBuild Role:    #
-######################
+###################################
+# CodeBuild Service Role Outputs: #
+###################################
 output "pipeline_role_id" {
   value = module.demo_codebuild_role.codebuild_role_id
 }
@@ -1459,24 +1719,18 @@ output "pipeline_role_arn" {
 
 <br><br>
 
-# Dependencies
-
-This module does not currently have any dependencies
-
-<br><br>
-
 # Requirements
 
-* [Terraform](https://www.terraform.io/)
-* [GIT](https://git-scm.com/download/win)
-* [AWS-Account](https://https://aws.amazon.com/)
+- [Terraform](https://www.terraform.io/)
+- [GIT](https://git-scm.com/download/win)
+- [AWS-Account](https://https://aws.amazon.com/)
 
 <br><br>
 
 # Recommended
 
-* [Terraform for VSCode](https://github.com/mauve/vscode-terraform)
-* [Terraform Config Inspect](https://github.com/hashicorp/terraform-config-inspect)
+- [Terraform for VSCode](https://github.com/mauve/vscode-terraform)
+- [Terraform Config Inspect](https://github.com/hashicorp/terraform-config-inspect)
 
 <br><br>
 
@@ -1486,7 +1740,7 @@ This project is owned by [CloudMage](rnason@cloudmage.io).
 
 To contribute, please:
 
-* Fork the project
-* Create a local branch
-* Submit Changes
-* Create A Pull Request
+- Fork the project
+- Create a local branch
+- Submit Changes
+- Create A Pull Request

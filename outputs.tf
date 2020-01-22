@@ -1,6 +1,6 @@
-###########################
-# CodeBuild Service Role: #
-###########################
+###################################
+# CodeBuild Service Role Outputs: #
+###################################
 output "codebuild_role_id" {
   value = aws_iam_role.this.id
 }

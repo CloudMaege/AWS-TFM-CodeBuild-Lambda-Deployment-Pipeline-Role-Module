@@ -1,6 +1,6 @@
-###########################
-# CodeBuild Service Role: #
-###########################
+###################################
+# CodeBuild Service Role Outputs: #
+###################################
 output "role_id" {
   value = module.demo_codebuild_role.codebuild_role_id
 }

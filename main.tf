@@ -7,7 +7,7 @@ data "aws_caller_identity" "current" {}
 # Local Variables:   #
 ######################
 locals {
-  bucket_wildcard_list = [for bucket in var.lambda_pipeline_s3_resource_list : format("%s/*", bucket) if length(var.lambda_pipeline_s3_resource_list) > 0]
+  bucket_wildcard_list = [for bucket in var.codebuild_role_s3_resource_access : format("%s/*", bucket) if length(var.codebuild_role_s3_resource_access) > 0]
 }
 
 ##############################################
@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "access_policy" {
 
 // Optional S3 Bucket Access
 data "aws_iam_policy_document" "s3_policy" {
-  count = "${length(var.lambda_pipeline_s3_resource_list)}" > 0 ? 1 : 0
+  count = "${length(var.codebuild_role_s3_resource_access)}" > 0 ? 1 : 0
   
   statement {
     sid = "LambdaPipelineS3Access"
@@ -106,13 +106,13 @@ data "aws_iam_policy_document" "s3_policy" {
       "s3:PutObjectVersionTagging",
     ]
   
-    resources = concat(var.lambda_pipeline_s3_resource_list, local.bucket_wildcard_list)
+    resources = concat(var.codebuild_role_s3_resource_access, local.bucket_wildcard_list)
   }
 }
 
 // Optional SNS Topic Access
 data "aws_iam_policy_document" "sns_policy" {
-  count = "${length(var.lambda_pipeline_sns_resource_list)}" > 0 ? 1 : 0
+  count = "${length(var.codebuild_sns_resource_access)}" > 0 ? 1 : 0
 
   statement {
     sid = "LambdaPipelineSNSAccess"
@@ -121,7 +121,7 @@ data "aws_iam_policy_document" "sns_policy" {
       "sns:Publish",
     ]
 
-    resources = var.lambda_pipeline_sns_resource_list
+    resources = var.codebuild_sns_resource_access
   }
 }
 
@@ -157,6 +157,23 @@ resource "aws_iam_role" "this" {
   description          = var.codebuild_role_description
   max_session_duration = "14400"
   assume_role_policy   = data.aws_iam_policy_document.principal_policy.json
+
+  // Set the Name tag, and add Created_By, Creation_Date, and Creator_ARN tags with ignore change lifecycle policy.
+  // Allow Updated_On to update on each exectuion.
+  tags = merge(
+    var.codebuild_role_tags,
+    {
+      Name            = lower(format("%s", trimspace(var.codebuild_role_name))),
+      Created_By      = data.aws_caller_identity.current.user_id
+      Creator_ARN     = data.aws_caller_identity.current.arn
+      Creation_Date   = timestamp()
+      Updated_On      = timestamp()
+    }
+  )
+
+  lifecycle {
+    ignore_changes = [tags["Created_By"], tags["Creation_Date"], tags["Creator_ARN"]]
+  }
 }
 
 // Access Policy
@@ -168,7 +185,7 @@ resource "aws_iam_role_policy" "access_policy" {
 
 // Optional S3 Bucket Access
 resource "aws_iam_role_policy" "s3_policy" {
-  count  = "${length(var.lambda_pipeline_s3_resource_list)}" > 0 ? 1 : 0
+  count  = "${length(var.codebuild_role_s3_resource_access)}" > 0 ? 1 : 0
   name   = "${var.codebuild_role_name}-S3Policy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.s3_policy[count.index].json
@@ -176,7 +193,7 @@ resource "aws_iam_role_policy" "s3_policy" {
 
 // Optional SNS Topic Access
 resource "aws_iam_role_policy" "sns_policy" {
-  count  = "${length(var.lambda_pipeline_sns_resource_list)}" > 0 ? 1 : 0
+  count  = "${length(var.codebuild_sns_resource_access)}" > 0 ? 1 : 0
   name   = "${var.codebuild_role_name}-SNSPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.sns_policy[count.index].json
