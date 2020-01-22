@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "sns_policy" {
 
 // Optional KMS CMK Usage Access
 data "aws_iam_policy_document" "cmk_policy" {
-  count = "${length(var.lambda_pipeline_cmk_resource_list)}" > 0 ? 1 : 0
+  count = "${length(var.codebuild_cmk_resource_access)}" > 0 ? 1 : 0
 
   statement {
     sid = "LambdaPipelineCMKAccess"
@@ -144,7 +144,7 @@ data "aws_iam_policy_document" "cmk_policy" {
       "kms:RevokeGrant"
     ]
   
-    resources = var.lambda_pipeline_cmk_resource_list
+    resources = var.codebuild_cmk_resource_access
   }
 }
 
@@ -201,7 +201,7 @@ resource "aws_iam_role_policy" "sns_policy" {
 
 // Optional KMS CMK Usage Policy
 resource "aws_iam_role_policy" "cmk_policy" {
-  count  = "${length(var.lambda_pipeline_cmk_resource_list)}" > 0 ? 1 : 0
+  count  = "${length(var.codebuild_cmk_resource_access)}" > 0 ? 1 : 0
   name   = "${var.codebuild_role_name}-CMKPolicy"
   role   = aws_iam_role.this.id
   policy = data.aws_iam_policy_document.cmk_policy[count.index].json
