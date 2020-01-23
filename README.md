@@ -1229,7 +1229,6 @@ module "codebuild_lambda_deployment_role" {
   codebuild_role_name                  = "Codebuild-Lambda-Role"
   codebuild_role_description           = "CodeBuild Role Description would go here"
   
-
   // Tags
   codebuild_role_tags = {
     Provisoned_By  = "Terraform"
@@ -1245,9 +1244,13 @@ module "codebuild_lambda_deployment_role" {
 
 <br><br>
 
+![IAM Role Tags](images/tf_role_tags.png)
+
+<br><br>
+
 # Complete IAM CodeBuild Role Permissions
 
-When all options have been provided, the complete IAM Role will be provisioned with the following permissions:
+When all options have been provided, the complete IAM Role will be provisioned as seen in the `terraform plan` output below. This will give the CodeBuild role the following permissions:
 
 ## Project main.tf
 
@@ -1586,7 +1589,7 @@ can't guarantee that exactly these actions will be performed if
 
 <br>
 
-![Provisioned Role](images/Lambda-Pipeline-CodeBuild-Role.png)
+![Provisioned Role](images/tf_cb_role.png)
 
 <br><br>
 
