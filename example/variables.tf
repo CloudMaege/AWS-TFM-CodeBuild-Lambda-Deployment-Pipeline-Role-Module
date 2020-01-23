@@ -47,8 +47,8 @@ variable "role_tags" {
   type        = map
   description = "Specify any tags that should be added to the CodeBuild IAM Role being provisioned."
   default     = {
-    Provisoned_By  = "Terraform"
-    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Provisoned_By     = "Terraform"
+    Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }
 
