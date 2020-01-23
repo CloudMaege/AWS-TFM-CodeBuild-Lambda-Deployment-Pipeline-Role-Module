@@ -22,7 +22,7 @@ This module does not currently have any pre-requisites or dependency requirement
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name                  = "Codebuild-Lambda-Role"
@@ -35,8 +35,8 @@ module "codebuild_lambda_deployment_role" {
 
   // Tags
   # codebuild_role_tags                = {
-  #   Provisoned_By  = "Terraform"
-  #   Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  #   Provisioned_By    = "Terraform"
+  #   Module_GitHub_Provisioned_By = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   # }
 }
 ```
@@ -57,7 +57,7 @@ Module variables that need to either be defined or re-defined with a non-default
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name = "Codebuild-Lambda-Role"
@@ -93,7 +93,7 @@ role_name = "Codebuild-Lambda-Role"
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name  = var.role_name
@@ -118,7 +118,7 @@ Once all of the modules required values have been assigned, then the module can 
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // This Module has No Required Variables
 }
@@ -321,7 +321,7 @@ variable "codebuild_role_name" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name                = "CodeBuild-Lambda-Deploy-Role"
@@ -467,7 +467,7 @@ variable "codebuild_role_description" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name        = "CloudMage-CodeBuild-Lambda-Deployment-Role"
@@ -614,7 +614,7 @@ variable "codebuild_role_s3_resource_access" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name                = "CloudMage-CodeBuild-Lambda-Deployment-Role"
@@ -823,7 +823,7 @@ variable "codebuild_sns_resource_access" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
@@ -1009,7 +1009,7 @@ variable "codebuild_cmk_resource_access" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
@@ -1211,8 +1211,8 @@ variable "codebuild_role_tags" {
   type        = map
   description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
   default     = {
-    Provisoned_By  = "Terraform"
-    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Provisioned_By    = "Terraform"
+    Module_GitHub_Provisioned_By = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }
 ```
@@ -1223,7 +1223,7 @@ variable "codebuild_role_tags" {
 
 ```terraform
 module "codebuild_lambda_deployment_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name                  = "Codebuild-Lambda-Role"
@@ -1231,8 +1231,8 @@ module "codebuild_lambda_deployment_role" {
   
   // Tags
   codebuild_role_tags = {
-    Provisoned_By  = "Terraform"
-    Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+    Provisioned_By    = "Terraform"
+    Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   }
 
   // Optional Variables with module defined default values assigned
@@ -1256,7 +1256,7 @@ When all options have been provided, the complete IAM Role will be provisioned a
 
 ```terraform
 module "codebuild_lambda_deployment_pipeline_role" {
-  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.3"
+  source = "git@github.com:CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git?ref=v1.0.4"
 
   // Required Variables
   codebuild_role_name               = "CloudMage-CodeBuild-Lambda-Deployment-Role"
@@ -1267,8 +1267,8 @@ module "codebuild_lambda_deployment_pipeline_role" {
 
   // Tags
   # codebuild_role_tags = {
-  #   Provisoned_By  = "Terraform"
-  #   Module_GitHub_UrL     = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
+  #   Provisioned_By    = "Terraform"
+  #   Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-KMS-Module.git"
   # }
 }
 ```
@@ -1649,7 +1649,7 @@ variable "codebuild_role_tags" {
   type        = map
   description = "Specify any tags that should be added to the IAM CodeBuild Service Role being provisioned."
   default     = {
-    Provisoned_By     = "Terraform"
+    Provisioned_By    = "Terraform"
     Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
   }
 }
@@ -1674,8 +1674,8 @@ codebuild_sns_resource_access     = []
 codebuild_cmk_resource_access     = []
 
 codebuild_role_tags           = {
-    Provisoned_By     = "Terraform"
-    Module_GitHub_UrL = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Provisioned_By     = "Terraform"
+    Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
 }
 ```
 

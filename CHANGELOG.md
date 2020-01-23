@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <br>
 
+## v1.0.4 - [2020-01-23]
+
+### Added
+
+- None
+
+### Changed
+
+- Provisoned_By tag spelling corrected to Provisioned_By
+- Fixed all Documentation to address miss-spelled tag
+
+### Removed
+
+- None
+
+<br><br>
+
 ## 1.0.3 - [2020-01-22]
 
 ### Added

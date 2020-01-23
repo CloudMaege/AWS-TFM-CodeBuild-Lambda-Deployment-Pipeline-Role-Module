@@ -12,6 +12,6 @@ sns_resource_access = ["arn:aws:sns:::CodeBuild-Notification-Topic"]
 cmk_resource_access = ["arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"]
 
 role_tags           = {
-    Provisoned_By   = "Terraform"
-    Module_GitHub_UrL      = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
+    Provisioned_By    = "Terraform"
+    Module_GitHub_URL = "https://github.com/CloudMage-TF/AWS-CodeBuild-Lambda-Deployment-Pipeline-Role-Module.git"
 }
